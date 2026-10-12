@@ -1,0 +1,442 @@
+[FUTURE-HQ-daily (3).html](https://github.com/user-attachments/files/33347715/FUTURE-HQ-daily.3.html)
+# future-hq
+My personal study, law reasoning, and coding training website
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FUTURE HQ</title>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --panel: #151d33;
+      --panel-2: #10182b;
+      --border: #293554;
+      --text: #eef2ff;
+      --muted: #b9c3dc;
+      --purple: #8b5cf6;
+      --purple-hover: #7c3aed;
+      --green: #86efac;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 32px 18px;
+      font-family: Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+    }
+
+    main { max-width: 1000px; margin: auto; }
+    .tag { color: #a78bfa; font-weight: bold; letter-spacing: .08em; }
+    h1 { font-size: clamp(2rem, 5vw, 2.8rem); line-height: 1.15; margin: 10px 0; }
+    h2 { line-height: 1.25; }
+    .intro { color: #aab4d0; max-width: 760px; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 16px;
+      margin-top: 28px;
+    }
+    .card, .panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 22px;
+      min-width: 0;
+    }
+    .card p, .muted { color: var(--muted); }
+    .card h2 { margin-top: 0; }
+    button, .button {
+      display: inline-block;
+      background: var(--purple);
+      color: white;
+      border: 0;
+      border-radius: 9px;
+      padding: 11px 14px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: .95rem;
+      text-decoration: none;
+      margin: 4px 4px 4px 0;
+    }
+    button:hover, .button:hover { background: var(--purple-hover); }
+    button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
+      outline: 2px solid #c4b5fd;
+      outline-offset: 3px;
+    }
+    .secondary { background: #293554; }
+    .secondary:hover { background: #354568; }
+    .task-list { padding-left: 0; list-style: none; }
+    .task-list li { margin: 13px 0; }
+    label { cursor: pointer; }
+    input[type="checkbox"] { accent-color: #a78bfa; margin-right: 8px; }
+    textarea, input[type="text"], select {
+      width: 100%;
+      background: var(--panel-2);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+      font: inherit;
+      margin: 6px 0 12px;
+    }
+    textarea { min-height: 130px; resize: vertical; }
+    .progress-track {
+      height: 8px;
+      background: #293554;
+      border-radius: 999px;
+      overflow: hidden;
+      margin: 10px 0 18px;
+    }
+    .progress-fill { height: 100%; width: 0; background: var(--green); transition: width .2s; }
+    .notice {
+      background: #10182b;
+      border: 1px solid var(--border);
+      padding: 14px;
+      border-radius: 12px;
+      color: var(--muted);
+    }
+    .hidden { display: none !important; }
+    footer { margin-top: 32px; color: #8793b2; }
+    .small { font-size: .9rem; }
+    .lesson { padding: 14px 0; border-bottom: 1px solid var(--border); }
+    .lesson:last-child { border-bottom: 0; }
+    @media (max-width: 520px) {
+      body { padding: 22px 14px; }
+      .card, .panel { padding: 17px; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section id="homePage">
+      <p class="tag">YOUR FUTURE STARTS HERE</p>
+      <h1>FUTURE HQ 🚀</h1>
+      <p class="intro">
+        Learn smarter. Think sharper. Build something real.
+        Your personal headquarters for school, law and coding.
+      </p>
+
+      <section class="panel" style="margin-bottom:20px">
+        <h2>📅 Today's progress</h2>
+        <p id="todayDate" class="small muted"></p>
+        <p><strong>FQ:</strong> Studied through page 19 of 35 (updated today).</p>
+        <div class="progress-track"><div class="progress-fill" style="width:35.7%"></div></div>
+        <p class="small muted">Next FQ target: page 20. Try to explain the ideas from pages 8–19 without looking at the book.</p>
+        <p><strong>Law Lab:</strong> Challenge 001 — Broken Window. Today's review: separate facts from assumptions.</p>
+      </section>
+
+      <section class="panel" style="margin-bottom:20px">
+        <p class="tag">DAILY RANDOM MISSION</p>
+        <h2 id="missionTitle">🎯 Loading today's mission…</h2>
+        <p id="missionDescription" class="muted">A small challenge chosen for today.</p>
+        <p class="small muted" id="missionCategory"></p>
+        <button id="completeMissionButton" onclick="toggleMissionComplete()">Mark mission complete</button>
+        <p id="missionStatus" class="small muted" role="status"></p>
+        <p class="small muted">Your mission changes automatically each calendar day. It works offline using tasks built into this website.</p>
+      </section>
+
+      <section class="grid">
+        <article class="card">
+          <h2>📚 Study Lab</h2>
+          <p>Plan your revision, practise questions, and learn from mistakes.</p>
+          <p class="small" id="studySummary">Your progress will appear here.</p>
+          <button onclick="navigateTo('studyPage')">Open Study Lab</button>
+        </article>
+
+        <article class="card">
+          <h2>⚖️ Law Lab</h2>
+          <p>Train yourself to think carefully, use evidence, and explain your reasoning.</p>
+          <p><strong>Today's challenge:</strong> Is an accusation enough to prove someone is guilty?</p>
+          <button onclick="navigateTo('lawPage')">Enter Law Lab</button>
+        </article>
+
+        <article class="card">
+          <h2>💻 Code Lab</h2>
+          <p>Learn HTML, CSS and JavaScript by building this website.</p>
+          <p><strong>First achievement:</strong> You created a working web page.</p>
+          <button onclick="navigateTo('codePage')">Enter Code Lab</button>
+        </article>
+      </section>
+
+      <section class="panel" style="margin-top:20px">
+        <h2>🎯 Today's checklist</h2>
+        <p class="muted">Small, steady steps count. This checklist resets for a new day; your notes remain saved.</p>
+        <ul class="task-list">
+          <li><label><input type="checkbox" data-save="daily-study">Revise one school topic</label></li>
+          <li><label><input type="checkbox" data-save="daily-questions">Answer five practice questions</label></li>
+          <li><label><input type="checkbox" data-save="daily-law">Complete one reasoning challenge</label></li>
+          <li><label><input type="checkbox" data-save="daily-code">Learn or improve one thing in the code</label></li>
+        </ul>
+        <div class="progress-track"><div class="progress-fill" id="dailyProgress"></div></div>
+        <p class="small muted" id="dailyProgressText">0 of 4 tasks complete</p>
+      </section>
+    </section>
+
+    <section id="studyPage" class="hidden">
+      <p class="tag">PROJECT FUTURE / STUDY</p>
+      <h1>📚 Study Lab</h1>
+      <p class="intro">Your personal study room. Choose one topic, practise without looking at your notes, then review your mistakes.</p>
+      <section class="panel">
+        <h2>My study session</h2>
+        <label for="subject">Subject</label>
+        <select id="subject">
+          <option>Science</option>
+          <option>Física e Química</option>
+          <option>Mathematics</option>
+          <option>Portuguese</option>
+          <option>English</option>
+          <option>French</option>
+          <option>History</option>
+          <option>Geography</option>
+          <option>Other</option>
+        </select>
+        <label for="topic">Topic I am revising</label>
+        <input type="text" id="topic" placeholder="e.g. atoms, fractions, verb tenses">
+        <h3>Session checklist</h3>
+        <ul class="task-list">
+          <li><label><input type="checkbox" data-save="study-notes">Review my notes for 5–10 minutes</label></li>
+          <li><label><input type="checkbox" data-save="study-recall">Close my notes and explain what I remember</label></li>
+          <li><label><input type="checkbox" data-save="study-quiz">Answer five practice questions</label></li>
+          <li><label><input type="checkbox" data-save="study-review">Correct mistakes and note what to revisit</label></li>
+        </ul>
+        <label for="studyNotes">What did I learn or find difficult?</label>
+        <textarea id="studyNotes" placeholder="Write a few notes here. They are saved in this browser."></textarea>
+        <button onclick="saveStudy()">Save study session</button>
+        <p id="studyMessage" class="notice hidden" role="status"></p>
+      </section>
+      <p><button class="secondary" onclick="navigateTo('homePage')">← Back to FUTURE HQ</button></p>
+    </section>
+
+    <section id="lawPage" class="hidden">
+      <p class="tag">PROJECT FUTURE / REASONING</p>
+      <h1>⚖️ Law Lab</h1>
+      <p class="intro">Practise fair reasoning. This is a fictional learning exercise, not legal advice.</p>
+      <section class="panel">
+        <h2>Challenge 001: The broken classroom window</h2>
+        <p>A window is found broken after the break. Alex says they saw Bruno near the window. Bruno says they were picking up a pen. Carlos says he saw Alex throw a ball, but does not know whether it hit the window.</p>
+        <h3>Your review tasks</h3>
+        <ul>
+          <li><strong>Fact:</strong> Carlos says he saw Alex throw a ball.</li>
+          <li><strong>Unknown:</strong> Whether the ball hit the window.</li>
+          <li><strong>Assumption to avoid:</strong> That Alex threw the ball at Bruno.</li>
+          <li><strong>Better argument:</strong> The evidence needs checking before responsibility can be established.</li>
+        </ul>
+        <label for="lawAnswer">Improve your argument here</label>
+        <textarea id="lawAnswer" placeholder="What is known? What is only a theory? What evidence would you check next?"></textarea>
+        <button onclick="saveLawAnswer()">Save my argument</button>
+        <p id="lawMessage" class="notice hidden" role="status"></p>
+      </section>
+      <p><button class="secondary" onclick="navigateTo('homePage')">← Back to FUTURE HQ</button></p>
+    </section>
+
+    <section id="codePage" class="hidden">
+      <p class="tag">PROJECT FUTURE / CODING</p>
+      <h1>💻 Code Lab</h1>
+      <p class="intro">Learn what each part of your website does, one concept at a time.</p>
+      <section class="panel">
+        <div class="lesson">
+          <h3>1. HTML — Structure</h3>
+          <p class="muted">HTML gives the page its content: headings, paragraphs, buttons and sections.</p>
+          <code>&lt;h1&gt;Hello, FUTURE HQ!&lt;/h1&gt;</code>
+        </div>
+        <div class="lesson">
+          <h3>2. CSS — Appearance</h3>
+          <p class="muted">CSS controls colours, spacing, fonts and layout.</p>
+          <code>h1 { color: #a78bfa; }</code>
+        </div>
+        <div class="lesson">
+          <h3>3. JavaScript — Interaction</h3>
+          <p class="muted">JavaScript makes buttons respond to clicks and can save your progress.</p>
+          <code>button.addEventListener("click", myFunction);</code>
+        </div>
+        <h3>Your coding challenge</h3>
+        <p>Open <code>index.html</code> in Notepad. Find the main FUTURE HQ heading and change its text. Save, then refresh Chrome to see the change.</p>
+        <label for="codeReflection">What did you change?</label>
+        <textarea id="codeReflection" placeholder="Record what you changed or what you want to learn next."></textarea>
+        <button onclick="saveCodeReflection()">Save coding note</button>
+        <p id="codeMessage" class="notice hidden" role="status"></p>
+      </section>
+      <p><button class="secondary" onclick="navigateTo('homePage')">← Back to FUTURE HQ</button></p>
+    </section>
+
+    <footer>
+      <p>PROJECT FUTURE · Learn a little, build a little, improve a little.</p>
+      <p class="small">Your notes and checklist are stored locally in this browser on this device.</p>
+    </footer>
+  </main>
+
+  <script>
+    const pages = ["homePage", "studyPage", "lawPage", "codePage"];
+
+    // Each mission is built into the website. A date-based pick keeps it stable all day
+    // and selects a different task on later days, without needing internet access.
+    const dailyMissions = [
+      { category: "📚 Study", title: "Teach it back", description: "Choose one idea from the FQ pages you have studied most recently and explain it aloud in your own words without looking at the book." },
+      { category: "📚 Study", title: "Five-question sprint", description: "Write and answer five questions about the last topic you studied. Check your answers against your notes." },
+      { category: "📚 Study", title: "Mistake detective", description: "Find one question you got wrong or found difficult. Write what went wrong and the correct method." },
+      { category: "📚 Study", title: "Recall challenge", description: "Close your notes and list everything you remember from one school topic, then check what you missed." },
+      { category: "⚖️ Law Lab", title: "Fact or assumption?", description: "Write three facts and two assumptions about a small everyday disagreement. Explain how you can tell them apart." },
+      { category: "⚖️ Law Lab", title: "Build both sides", description: "Pick a harmless debate topic. Write one strong argument for each side before choosing your own position." },
+      { category: "⚖️ Law Lab", title: "Evidence check", description: "Invent a short mystery and list what is known, what is uncertain, and what evidence would help." },
+      { category: "💻 Code Lab", title: "Inspect one line", description: "Open index.html and find one HTML or CSS line. Write what it does, then safely change one small thing and refresh the page." },
+      { category: "💻 Code Lab", title: "Improve a button", description: "Find a button in your page and explain which JavaScript function runs when you click it." },
+      { category: "🧠 Habits", title: "Plan tomorrow", description: "Write your most important school task for tomorrow and the first tiny step you will take." },
+      { category: "🧠 Habits", title: "Two-minute review", description: "Review yesterday's learning for two minutes, then write one thing you remember and one thing to revisit." },
+      { category: "📚 Study", title: "Mini mock test", description: "Set a 10-minute timer and answer questions without notes. Mark each answer honestly afterwards." }
+    ];
+
+    function localDateKey(date = new Date()) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    }
+
+    function setupDailyMission() {
+      const now = new Date();
+      const dateKey = localDateKey(now);
+      document.getElementById("todayDate").textContent =
+        now.toLocaleDateString(undefined, { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+
+      // Use the date to choose a mission. It changes by day, but not on every refresh.
+      const dayNumber = Math.floor(new Date(`${dateKey}T12:00:00`).getTime() / 86400000);
+      const mission = dailyMissions[((dayNumber % dailyMissions.length) + dailyMissions.length) % dailyMissions.length];
+      document.getElementById("missionTitle").textContent = mission.title;
+      document.getElementById("missionDescription").textContent = mission.description;
+      document.getElementById("missionCategory").textContent = mission.category;
+      updateMissionButton(dateKey);
+    }
+
+    function updateMissionButton(dateKey = localDateKey()) {
+      const done = readSaved("mission-complete-" + dateKey, "false") === "true";
+      const button = document.getElementById("completeMissionButton");
+      button.textContent = done ? "Mission completed ✓ (click to undo)" : "Mark mission complete";
+      document.getElementById("missionStatus").textContent = done ? "Nice work — today's mission is complete." : "Mission not completed yet.";
+    }
+
+    function toggleMissionComplete() {
+      const dateKey = localDateKey();
+      const done = readSaved("mission-complete-" + dateKey, "false") === "true";
+      writeSaved("mission-complete-" + dateKey, String(!done));
+      updateMissionButton(dateKey);
+    }
+
+    function navigateTo(pageId) {
+      pages.forEach(id => {
+        document.getElementById(id).classList.toggle("hidden", id !== pageId);
+      });
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      if (pageId === "homePage") updateStudySummary();
+    }
+
+    function readSaved(key, fallback = "") {
+      try {
+        const value = localStorage.getItem("future-hq-" + key);
+        return value === null ? fallback : value;
+      } catch (error) {
+        return fallback;
+      }
+    }
+
+    function writeSaved(key, value) {
+      try {
+        localStorage.setItem("future-hq-" + key, value);
+        return true;
+      } catch (error) {
+        return false;
+      }
+    }
+
+    function showMessage(id, message) {
+      const element = document.getElementById(id);
+      element.textContent = message;
+      element.classList.remove("hidden");
+    }
+
+    function saveStudy() {
+      const subject = document.getElementById("subject").value;
+      const topic = document.getElementById("topic").value;
+      const notes = document.getElementById("studyNotes").value;
+      const ok = writeSaved("study-session", JSON.stringify({ subject, topic, notes }));
+      showMessage("studyMessage", ok ? "Study session saved in this browser!" : "Browser storage is unavailable. Keep a copy of your notes somewhere safe.");
+      updateStudySummary();
+    }
+
+    function saveLawAnswer() {
+      const ok = writeSaved("law-answer", document.getElementById("lawAnswer").value);
+      showMessage("lawMessage", ok ? "Your argument has been saved in this browser!" : "Browser storage is unavailable. Copy your argument somewhere safe.");
+    }
+
+    function saveCodeReflection() {
+      const ok = writeSaved("code-note", document.getElementById("codeReflection").value);
+      showMessage("codeMessage", ok ? "Your coding note has been saved in this browser!" : "Browser storage is unavailable. Copy your note somewhere safe.");
+    }
+
+    function updateStudySummary() {
+      const saved = readSaved("study-session");
+      const summary = document.getElementById("studySummary");
+      if (!saved) {
+        summary.textContent = "No study session saved yet.";
+        return;
+      }
+      try {
+        const session = JSON.parse(saved);
+        summary.textContent = session.topic
+          ? "Last topic: " + session.topic + " (" + session.subject + ")"
+          : "Last subject: " + session.subject;
+      } catch (error) {
+        summary.textContent = "Study session saved.";
+      }
+    }
+
+    document.querySelectorAll('input[type="checkbox"][data-save]').forEach(box => {
+      const key = "check-" + localDateKey() + "-" + box.dataset.save;
+      box.checked = readSaved(key, "false") === "true";
+      box.addEventListener("change", () => {
+        writeSaved(key, String(box.checked));
+        updateDailyProgress();
+      });
+    });
+
+    function updateDailyProgress() {
+      const boxes = [...document.querySelectorAll('input[type="checkbox"][data-save^="daily-"]')];
+      const completed = boxes.filter(box => box.checked).length;
+      document.getElementById("dailyProgress").style.width = (completed / boxes.length * 100) + "%";
+      document.getElementById("dailyProgressText").textContent = completed + " of " + boxes.length + " tasks complete";
+    }
+
+    function restoreText(id, key) {
+      document.getElementById(id).value = readSaved(key);
+      document.getElementById(id).addEventListener("input", event => writeSaved(key, event.target.value));
+    }
+
+    restoreText("studyNotes", "study-notes-text");
+    restoreText("lawAnswer", "law-answer");
+    restoreText("codeReflection", "code-note-text");
+    document.getElementById("topic").value = readSaved("study-topic");
+    document.getElementById("topic").addEventListener("input", event => writeSaved("study-topic", event.target.value));
+    document.getElementById("subject").value = readSaved("study-subject", "Science");
+    document.getElementById("subject").addEventListener("change", event => writeSaved("study-subject", event.target.value));
+
+    // Restore saved study details.
+    try {
+      const savedSession = JSON.parse(readSaved("study-session", "null"));
+      if (savedSession) {
+        document.getElementById("subject").value = savedSession.subject || "Science";
+        document.getElementById("topic").value = savedSession.topic || "";
+        if (savedSession.notes) document.getElementById("studyNotes").value = savedSession.notes;
+      }
+    } catch (error) {}
+
+    setupDailyMission();
+    updateDailyProgress();
+    updateStudySummary();
+  </script>
+</body>
+</html>
